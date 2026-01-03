@@ -4,14 +4,14 @@ import { GoGear } from "react-icons/go";
 import { Button } from "../ui/button";
 import { MdFormatSize } from "react-icons/md";
 
-const LayoutTop = ({ children }: { children: React.ReactNode }) => {
+const LayoutTop = ({ }: { children: React.ReactNode }) => {
   return (
     <section className="h-full w-full flex items-center justify-between mb-8">
       <div className="flex flex-col items-start">
         <button>Back</button>
         <hr className="w-48" />
         <div className="flex gap-2 mt-4">
-          <Button variant={"outline"}>RANDOM</Button>
+          <Button variant={"outline"}>Reduce Video</Button>
           <Button variant={"outline"}>RANDOM</Button>
           <Button variant={"outline"}>ANOTHER PRESET</Button>
           <Button variant={"outline"}>...</Button>

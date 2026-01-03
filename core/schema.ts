@@ -18,21 +18,39 @@ const ffmpegRules = {
   video: {
     ...video,
   },
-  // audio: {
-  // ca: "aac",
-  // ba: "128k",
-  // ar: 48000,
-  // ac: 2,
-  // af: "volume=1.0",
-  // },
-  // subtitle: {
-  //   cs: "copy",
-  // },
-  // metadata: {
-  //   metadataTitle: "output",
-  //   metadataASV: "language=eng",
-  //   metadataASA: "language=eng",
-  // },
+  audio: {
+    ca: {
+      label: "Audio Codec",
+      flag: "-c:a",
+      options: [
+        { value: "aac", hw: "cpu" },
+        { value: "aac", hw: "nvidia" },
+        { value: "aac", hw: "intel" },
+        { value: "aac", hw: "amd" },
+        { value: "aac", hw: "linux" },
+      ],
+      mode: "list",
+      isImportant: false,
+    },
+    ba: {
+      label: "Audio Bitrate",
+      flag: "-b:a",
+      input: "128k",
+      mode: "input",
+      isImportant: false,
+    },
+    // ar: 48000,
+    // ac: 2,
+    // af: "volume=1.0",
+    // },
+    // subtitle: {
+    //   cs: "copy",
+    // },
+    // metadata: {
+    //   metadataTitle: "output",
+    //   metadataASV: "language=eng",
+    //   metadataASA: "language=eng",
+  },
   output: {
     // movFlags: "+faststart",
     // f: "mp4",
@@ -50,6 +68,9 @@ const ffmpegRules = {
   },
 };
 
+const array = [];
+
+const arrayBuildId: number = [];
 function getName(array) {
   for (const key in array) {
     if (typeof array[key] === "object") {
