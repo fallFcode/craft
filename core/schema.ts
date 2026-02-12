@@ -2,91 +2,101 @@ import { ffmpegGlobal } from "./part/global";
 import { inputOption } from "./part/inputOption";
 import { video } from "./part/video";
 
-// const ffmpegRules = {
-//   global: {
-//     ...ffmpegGlobal,
-//   },
-//   inputOption: {
-//     ...inputOption,
-//   },
-//   stream: {
-//     mapV: "0:v:0",
-//     mapA: "0:a:0?",
-//     mapMetadata: 0,
-//     mapChapter: 0,
-//   },
-//   video: {
-//     ...video,
-//   },
-//   audio: {
-//     ca: {
-//       label: "Audio Codec",
-//       flag: "-c:a",
-//       options: [
-//         { value: "aac", hw: "cpu" },
-//         { value: "aac", hw: "nvidia" },
-//         { value: "aac", hw: "intel" },
-//         { value: "aac", hw: "amd" },
-//         { value: "aac", hw: "linux" },
-//       ],
-//       mode: "list",
-//       isImportant: false,
-//     },
-//     ba: {
-//       label: "Audio Bitrate",
-//       flag: "-b:a",
-//       input: "128k",
-//       mode: "input",
-//       isImportant: false,
-//     },
-//     ar: 48000,
-//     ac: 2,
-//     af: "volume=1.0",
-//   },
-//   subtitle: {
-//     cs: "copy",
-//   },
-//   metadata: {
-//     metadataTitle: "output",
-//     metadataASV: "language=eng",
-//     metadataASA: "language=eng",
-//   },
-//   output: {
-//     movFlags: "+faststart",
-//     f: "mp4",
-//     output: {
-//       label: "Output Video",
-//       input: "Output.mp4",
-//       mode: "input",
-//       isImportant: true,
-//     },
-//   },
-//   default: {
-//     label: "Preliminary",
-//     flag: "ffmpeg",
-//     isImportant: true,
-//   },
-// };
-
 import mainSchema from "./main-how.json";
 
 const ffmpegRules = mainSchema;
 
-function getName(obj) {
+const findOnlyImportantIds = (obj): number[] => {
+  let results = [];
+
+  for (const key in obj) {
+    if (obj[key] && typeof obj[key] === "object") {
+      // Cek apakah punya isImportant true DAN punya properti id
+      if (obj[key].isImportant === true && obj[key].id !== undefined) {
+        results.push(obj[key].id);
+      }
+      // Telusuri lebih dalam ke anak objeknya
+      results = results.concat(findOnlyImportantIds(obj[key]));
+    }
+  }
+
+  return results;
+};
+
+const getImportantId = findOnlyImportantIds(ffmpegRules);
+
+let id = 0;
+const gotDefault = [];
+function getName(obj, setLabel = true) {
   const result = [];
   for (const key in obj) {
-    if (typeof obj[key] === "object") {
+    if (typeof obj[key] === "object" && setLabel) {
       result.push({
         label: key,
         [key]: Object.values(obj[key]),
       });
     }
+
+    if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
+      getName(obj[key], false);
+      if (obj[key]["label"] !== undefined) {
+        if (obj[key]["isImportant"] !== true) {
+          incrementId();
+        } else {
+          // console.log(result)
+          gotDefault.push(obj[key]);
+        }
+
+        function incrementId() {
+          if (getImportantId.includes(id)) {
+            id++;
+            incrementId();
+          } else {
+            obj[key]["id"] = id;
+            id++;
+          }
+        }
+      }
+    }
   }
+
+  // console.log(gotDefault)
+
   return result;
 }
+// const getImporatant = getImportantPaths(ffmpegRules)
 
-export const craftJson = getName(ffmpegRules);
+const addSomeLabel = getName(ffmpegRules);
+addSomeLabel[addSomeLabel.length - 1].default.push(...gotDefault);
+export const craftJson = addSomeLabel;
+// console.log(craftJson[8]);
 
+// function getImportantPaths(obj, currentPath = "") {
+//   let paths = [];
+
+//   for (const key in obj) {
+//     const newPath = currentPath ? `${currentPath}.${key}` : key;
+
+//     if (typeof obj[key] === "object" && obj[key] !== null) {
+//       if (obj[key].isImportant === true) {
+//         paths.push(newPath);
+//       }
+//       paths = paths.concat(getImportantPaths(obj[key], newPath));
+//     }
+//   }
+
+//   return paths;
+// }
+
+// Cara pakainya gampang banget:
+
+// console.log(path)
+// console.log(pathImportant);
+
+// const result = [];
+// function searchIsImportant(obj) {}
+
+// console.log(craftJson[0]);
 // console.log(result);
 
 // ffmpegRules

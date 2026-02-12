@@ -14,7 +14,7 @@ const LayoutTop = ({ children }: { children: React.ReactNode }) => {
   return (
     <section className="h-full w-full flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-6 sm:gap-0">
       <div className="flex flex-col items-start w-full sm:w-auto">
-        <button className="text-lg py-2 px-3 rounded-md touch-manipulation">Back</button>
+        <button className="text-lg py-2 px-3 rounded-md touch-manipulation font-bold">Craft</button>
         <hr className="w-48 my-2" />
         <div className="flex gap-2 mt-4 flex-wrap sm:flex-nowrap overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
           <Button variant={"outline"} className="h-12 sm:h-9" size={"sm"}>Reduce Video</Button>

@@ -6,24 +6,21 @@ interface SelectState {
   setSelectValue: (
     key: string,
     value: TypeSelect,
-    deleteContent: boolean,
+    deleteContent?: boolean,
   ) => void;
 }
 
 export const useSelectStore = create<SelectState>((set) => ({
   select: {},
   setSelectValue: (key, value, deleteContent) => {
-    if (deleteContent) {
-      set((state) => {
+    set((state) => {
+      if (deleteContent) {
         const duplicateObject = state.select;
+        console.log(duplicateObject[key]);
         delete duplicateObject[key];
-        return { ...duplicateObject };
-      });
-      return;
-    }
-
-    set((state) => ({
-      select: { ...state.select, [key]: value },
-    }));
+        return { select: { ...duplicateObject } };
+      }
+      return { select: { ...state.select, [key]: value } };
+    });
   },
 }));

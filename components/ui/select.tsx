@@ -5,17 +5,16 @@ export function Select({
   children,
   value,
   defaultValue,
-  setObjectValue,
   avoidObject,
   onActive,
 }) {
   const [select, setSelect] = useState<string>(defaultValue || "");
-  const bears = useSelectStore((state) => state.select);
+  // const bears = useSelectStore((state) => state.select);
 
-  useEffect(() => {
-    if (avoidObject) {
-    }
-  }, [bears]);
+  // useEffect(() => {
+  //   if (avoidObject) {
+  //   }
+  // }, [bears]);
 
   useEffect(() => {
     if (value !== select) {
@@ -29,11 +28,9 @@ export function Select({
     if (getProps.children !== select) {
       setSelect((prevState) => getProps.children);
       onActive(event, true);
-      setObjectValue({ value: getProps.value });
-    } else {  
+    } else {
       setSelect((prevState) => "");
       onActive(event, false);
-      setObjectValue({}, true);
     }
   }
 

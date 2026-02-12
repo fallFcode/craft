@@ -7,12 +7,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export default function InputCheckBox({ label, ...props }: InputProps) {
   return (
-    <div className="flex border-2 ">
+    <div className="flex justify-between">
       <label htmlFor="checkboxd">{label}</label>
       <input
         name="checkboxd"
         type="checkbox"
-        className="appearance-none w-6 h-6 border-2 border-pink-400 rounded checked:bg-pink-400 checked:border-transparent focus:outline-none cursor-pointer"
+        className="appearance-none aspect-video w-6 h-6 border-2 border-stone-400 rounded checked:bg-stone-400 checked:border-transparent focus:outline-none cursor-pointer scale-75"
         {...props}
       />
     </div>

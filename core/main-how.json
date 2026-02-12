@@ -1,38 +1,38 @@
 {
   "global": {
     "hideBanner": {
-      "id": 1,
       "label": "Hide Banner",
       "flag": "hide_banner",
-      "input": false,
+      "value": false,
       "mode": "check",
       "isImportant": false
     },
     "logLevel": {
       "label": "Log Level",
       "flag": "log_level",
-      "input": false,
+      "value": false,
       "mode": "check",
       "isImportant": false
     },
     "y": {
       "label": "Overwrite Output Files",
       "flag": "y",
-      "input": false,
+      "value": false,
       "mode": "check",
       "isImportant": false
     },
     "stats": {
       "label": "Show Stats",
       "flag": "stats",
-      "input": false,
+      "value": false,
       "mode": "check",
       "isImportant": false
     },
     "threads": {
       "label": "Number of Threads",
       "flag": "threads",
-      "input": 0,
+      "value": 0,
+      "max": 100,
       "mode": "number",
       "isImportant": false
     }
@@ -42,7 +42,7 @@
     "ss": {
       "label": "cut from",
       "flag": "ss",
-      "input": "00:00:00",
+      "value": "00:00:00",
       "mode": "duration",
       "isImportant": false,
       "needed": ["to"]
@@ -50,20 +50,18 @@
     "to": {
       "label": "Cut To",
       "flag": "to",
-      "input": "00:00:00",
+      "value": "00:00:00",
       "mode": "duration",
       "isImportant": false,
       "needed": ["ss"]
     },
-    "re": false,
-    "f": "lavfi",
-    "r": 30,
     "i": {
       "label": "Input Video",
-      "flag": "-i",
-      "input": "input.mp4",
+      "flag": "i",
+      "value": "input.mp4",
       "mode": "input",
-      "isImportant": true
+      "isImportant": true,
+      "id": 1
     }
   },
   "stream": {
@@ -75,7 +73,7 @@
   "video": {
     "cV": {
       "label": "cv",
-      "flag": "-c:v",
+      "flag": "c:v",
       "options": [
         { "value": "libx264", "hw": "cpu" },
         { "value": "h264_nvenc", "hw": "nvidia" },
@@ -95,6 +93,7 @@
     "level": 4.2,
     "preset": {
       "label": "Preset",
+      "flag": "preset",
       "options": [
         { "value": "ultrafast", "hw": "UltraFast" },
         { "value": "superfast", "hw": "SuperFast" },
@@ -112,16 +111,18 @@
     },
     "crf": {
       "label": "CRF",
-      "flag": "-crf",
-      "input": 23,
+      "flag": "crf",
+      "value": 23,
+
       "mode": "number",
       "isImportant": false,
       "avoid": ["bv"]
     },
     "bv": {
       "label": "bv",
-      "flag": "-bv",
-      "input": 0,
+      "flag": "bv",
+      "value": 0,
+
       "mode": "number",
       "isImportant": false,
       "avoid": ["crf"]
@@ -137,15 +138,15 @@
   "audio": {
     "ca": {
       "label": "Audio Codec",
-      "flag": "-c:a",
-      "input": "aac",
+      "flag": "c:a",
+      "value": "aac",
       "mode": "check",
       "isImportant": false
     },
     "ba": {
       "label": "Audio Bitrate",
-      "flag": "-b:a",
-      "input": "128k",
+      "flag": "b:a",
+      "value": "128k",
       "mode": "input",
       "isImportant": false
     },
@@ -156,7 +157,7 @@
   "subtitle": {
     "cs": {
       "label": "subtitle",
-      "input": "copy",
+      "value": "copy",
       "mode": "check",
       "isImportant": false
     }
@@ -164,41 +165,41 @@
   "metadata": {
     "metadataTitle": {
       "label": "Metadata Title",
-      "flag": "-metadata",
-      "input": "title=output",
+      "flag": "metadata",
+      "value": "title=output",
       "mode": "input",
       "isImportant": false
     },
     "metadataASV": {
       "label": "Video Stream Language",
-      "flag": "-metadata:s:v:0",
-      "input": "language=eng",
+      "flag": "metadata:s:v",
+      "value": "language=eng",
       "mode": "input",
       "isImportant": false
     },
     "metadataASA": {
       "label": "Audio Stream Language",
-      "flag": "-metadata:s:a:0",
-      "input": "language=eng",
+      "flag": "metadata:s:a",
+      "value": "language=eng",
       "mode": "input",
       "isImportant": false
     }
   },
   "output": {
-      "movFlags": {
-        "label": "MOV Flags",
-        "flag": "-movflags",
-        "options": [
-          { "value": "+faststart", "label": "Fast Start (Web)" },
-          { "value": "frag_keyframe", "label": "Fragmented MP4" },
-          { "value": "empty_moov", "label": "Empty Moov" }
-        ],
-        "mode": "list",
-        "isImportant": false
-      },
+    "movFlags": {
+      "label": "MOV Flags",
+      "flag": "movflags",
+      "options": [
+        { "value": "+faststart", "label": "Fast Start (Web)" },
+        { "value": "frag_keyframe", "label": "Fragmented MP4" },
+        { "value": "empty_moov", "label": "Empty Moov" }
+      ],
+      "mode": "list",
+      "isImportant": false
+    },
     "f": {
       "label": "format",
-      "flag": "-f",
+      "flag": "f",
       "options": [
         { "value": "mp4", "label": "MP4 Video" },
         { "value": "mp3", "label": "MP3 Audio" },
@@ -213,14 +214,18 @@
     "output": {
       "label": "Output Video",
       "flag": "",
-      "input": "Output.mp4",
+      "value": "Output.mp4",
       "mode": "input",
-      "isImportant": true
+      "isImportant": true,
+      "id": 999
     }
   },
   "default": {
-    "label": "Preliminary",
-    "flag": "ffmpeg",
-    "isImportant": true
+    "Preliminary": {
+      "label": "Preliminary",
+      "flag": "ffmpeg",
+      "isImportant": true,
+      "id": 0
+    }
   }
 }
