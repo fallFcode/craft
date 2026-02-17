@@ -1,31 +1,26 @@
-import { ffmpegGlobal } from "./part/global";
-import { inputOption } from "./part/inputOption";
-import { video } from "./part/video";
-
 import mainSchema from "./main-how.json";
 
 const ffmpegRules = mainSchema;
 
-const findOnlyImportantIds = (obj): number[] => {
+const findOnlyImportantOrders = (obj): number[] => {
   let results = [];
 
   for (const key in obj) {
     if (obj[key] && typeof obj[key] === "object") {
-      // Cek apakah punya isImportant true DAN punya properti id
-      if (obj[key].isImportant === true && obj[key].id !== undefined) {
-        results.push(obj[key].id);
+      if (obj[key].isImportant === true && obj[key].order !== undefined) {
+        results.push(obj[key].order);
       }
-      // Telusuri lebih dalam ke anak objeknya
-      results = results.concat(findOnlyImportantIds(obj[key]));
+
+      results = results.concat(findOnlyImportantOrders(obj[key]));
     }
   }
 
   return results;
 };
 
-const getImportantId = findOnlyImportantIds(ffmpegRules);
+const getImportantOrder = findOnlyImportantOrders(ffmpegRules);
 
-let id = 0;
+let order = 0;
 const gotDefault = [];
 function getName(obj, setLabel = true) {
   const result = [];
@@ -41,62 +36,50 @@ function getName(obj, setLabel = true) {
       getName(obj[key], false);
       if (obj[key]["label"] !== undefined) {
         if (obj[key]["isImportant"] !== true) {
-          incrementId();
+          incrementOrder();
         } else {
           // console.log(result)
           gotDefault.push(obj[key]);
         }
 
-        function incrementId() {
-          if (getImportantId.includes(id)) {
-            id++;
-            incrementId();
+        function incrementOrder() {
+          if (getImportantOrder.includes(order)) {
+            order++;
+            incrementOrder();
           } else {
-            obj[key]["id"] = id;
-            id++;
+            obj[key]["order"] = order;
+            order++;
           }
         }
       }
     }
   }
 
-  // console.log(gotDefault)
 
   return result;
 }
-// const getImporatant = getImportantPaths(ffmpegRules)
 
 const addSomeLabel = getName(ffmpegRules);
 addSomeLabel[addSomeLabel.length - 1].default.push(...gotDefault);
 export const craftJson = addSomeLabel;
-// console.log(craftJson[8]);
 
-// function getImportantPaths(obj, currentPath = "") {
-//   let paths = [];
+const tes = getSearch(craftJson, [4, 21]);
+console.log(tes);
 
-//   for (const key in obj) {
-//     const newPath = currentPath ? `${currentPath}.${key}` : key;
+function getSearch(arr, targetOrders) {
+  let results = [];
 
-//     if (typeof obj[key] === "object" && obj[key] !== null) {
-//       if (obj[key].isImportant === true) {
-//         paths.push(newPath);
-//       }
-//       paths = paths.concat(getImportantPaths(obj[key], newPath));
-//     }
-//   }
+  for (const key in arr) {
+    const item = arr[key];
+    const dataArray = item[item.label];
 
-//   return paths;
-// }
-
-// Cara pakainya gampang banget:
-
-// console.log(path)
-// console.log(pathImportant);
-
-// const result = [];
-// function searchIsImportant(obj) {}
-
-// console.log(craftJson[0]);
-// console.log(result);
-
-// ffmpegRules
+    if (Array.isArray(dataArray)) {
+      const match = dataArray.filter(
+        (obj) => obj && targetOrders.includes(obj.order),
+      );
+      results = [...results, ...match];
+    }
+  }
+  
+  return results;
+}

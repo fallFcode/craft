@@ -61,7 +61,7 @@
       "value": "input.mp4",
       "mode": "input",
       "isImportant": true,
-      "id": 1
+      "order": 1
     }
   },
   "stream": {
@@ -82,7 +82,8 @@
         { "value": "h264_vaapi", "hw": "linux" }
       ],
       "mode": "list",
-      "isImportant": false
+      "isImportant": false,
+      "id": 0
     },
     "profile": {
       "label": "Profile",
@@ -107,16 +108,17 @@
         { "value": "placebo", "hw": "Placebo" }
       ],
       "mode": "list",
-      "isImportant": false
+      "isImportant": false,
+      "id": 2
     },
     "crf": {
       "label": "CRF",
       "flag": "crf",
       "value": 23,
-
       "mode": "number",
       "isImportant": false,
-      "avoid": ["bv"]
+      "avoid": ["bv"],
+      "id": 1
     },
     "bv": {
       "label": "bv",
@@ -150,9 +152,16 @@
       "mode": "input",
       "isImportant": false
     },
-    "ar": 48000,
     "ac": 2,
-    "af": "volume=1.0"
+    "af": "volume=1.0",
+    "ar": 48000,
+    "an": {
+      "label": "Audio no",
+      "flag": "an",
+      "mode": "check",
+      "isImportant": false,
+      "id": 3
+    }
   },
   "subtitle": {
     "cs": {
@@ -217,7 +226,18 @@
       "value": "Output.mp4",
       "mode": "input",
       "isImportant": true,
-      "id": 999
+      "order": 999
+    }
+  },
+  "template": {
+    "fullHd": {
+      "label": "Reduce Bit Video",
+      "template": [
+        { "id": 0, "option": 0 },
+        { "id": 1, "value": 35 },
+        { "id": 2, "option": 0 },
+        { "id": 3, "value": true }
+      ]
     }
   },
   "default": {
@@ -225,7 +245,7 @@
       "label": "Preliminary",
       "flag": "ffmpeg",
       "isImportant": true,
-      "id": 0
+      "order": 0
     }
   }
 }
