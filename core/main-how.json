@@ -230,10 +230,10 @@
     }
   },
   "template": {
-    "fullHd": {
+    "reduceBitVideo": {
       "label": "Reduce Bit Video",
       "template": [
-        { "id": 0, "option": 0 },
+        { "id": 3, "option": 0 },
         { "id": 1, "value": 35 },
         { "id": 2, "option": 0 },
         { "id": 3, "value": true }
