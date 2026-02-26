@@ -56,7 +56,10 @@ const LayoutMid = ({ children }: { children: React.ReactNode }) => {
           {promptResult ? (
             <div className="w-fit flex p-2  rounded-xl border-stone-300 border-2 items-center justify-center">
               <p>{promptResult}</p>
-              <Button variant={"ghost"}>
+              <Button
+                variant={"ghost"}
+                onClick={() => navigator.clipboard.writeText(promptResult)}
+              >
                 <IoCopyOutline />
               </Button>
             </div>
