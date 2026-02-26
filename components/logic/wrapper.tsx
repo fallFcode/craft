@@ -10,8 +10,9 @@ type WrapperSetProps = {
 export default function WrapperSet({ children, item }: WrapperSetProps) {
   const select = useSelectStore((state) => state.select);
   const setSelect = useSelectStore((state) => state.setSelectValue);
-
+  
   function handleChange(event, active) {
+    console.log("asdsad")
     const getElement: React.HTMLElementType<InputEvent> = event.currentTarget;
     const getTag = getElement.tagName;
     

@@ -1,50 +1,23 @@
-import { craftJson } from "@/core/schema";
+
 import { FormSubmit } from "../ui/form-submit";
 
 import { Button } from "../ui/button";
 
-import { useSelectStore } from "@/app/store";
+import { useLayoutStore, useSelectStore } from "@/app/store";
 import { useEffect } from "react";
 import { schemaElement } from "../features/schemaElementSlide";
+import useAddDefault from "../hook/useAddDefault";
 
-export default function LayoutSlide() {
-  const setSelect = useSelectStore((state) => state.setSelectValue);
-
-  useEffect(() => {
-    type commonCraftType = {
-      label: string;
-      flag: string;
-      id: number;
-      value: boolean;
-      mode: string;
-      isImportant: boolean;
-    };
-    const getDefault: commonCraftType[] =
-      craftJson[craftJson.length - 1].default;
-
-    for (let index = 0; index < getDefault.length; index++) {
-      const element = getDefault[index];
-
-      const getLabel = element.label;
-      const getId = element.id;
-      const getFlag = element.flag;
-      const getValue = element.value;
-
-      setSelect(getLabel, {
-        id: getId,
-        flag: getFlag,
-        value: getValue,
-        label: getLabel,
-      });
-    }
-  }, []);
+export default function LayoutSlide({craftJson}) {
+  const { setSelectValue:setSelect } = useSelectStore((state) => state);
+  
 
   const schemaElements = schemaElement(setSelect);
   type SchemaKey = keyof typeof schemaElements;
 
   return (
-    <div className="absolute flex h-screen w-full place-self-start">
-      <ul className="bg-white shadow-xl flex  w-[40%] flex-col overflow-y-auto p-2">
+    <div className="absolute flex h-full w-fit place-self-start ">
+      <ul className="bg-white shadow-xl flex  w-fit max-w-[400px] flex-col overflow-y-auto p-2">
         <li className="border-b-4">
           <h2 className="font-semibold text-2xl">Feature</h2>
         </li>

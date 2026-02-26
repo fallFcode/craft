@@ -8,18 +8,20 @@ const LayoutMid = ({ children }: { children: React.ReactNode }) => {
   const [objectSorted, setObjectSorted] = useState();
   const select = useSelectStore((state) => state.select);
 
+  console.log(select)
+
 
 
   useEffect(() => {
     if (select) {
-      const result = Object.values(select).sort((a, b) => a.id - b.id);
+      const result = Object.values(select).sort((a, b) => a.order - b.order);
       setObjectSorted(result);
       const joinIt = result.map((item) => {
         const getFlag = item.flag ?? "";
         const getValue = item.value ?? "";
-        const getId = item.id;
+        const getOrder = item.order;
         let stripFlag = " -";
-        if (item.flag == "" || getId === 0) {
+        if (item.flag == "" || getOrder === 0) {
           stripFlag = "";
         }
 
@@ -38,7 +40,7 @@ const LayoutMid = ({ children }: { children: React.ReactNode }) => {
           {objectSorted &&
             objectSorted?.map((data, id) => {
               return (
-                <div key={id}>
+                <div key={id} className="flex gap-4 items-center">
                   <span>+</span>
                   <Button variant={"outline"}>{data.label}</Button>
                 </div>

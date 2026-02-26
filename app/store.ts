@@ -24,3 +24,13 @@ export const useSelectStore = create<SelectState>((set) => ({
     });
   },
 }));
+
+interface LayoutState {
+  layoutSlide: boolean;
+  setLayoutSlide: () => void;
+}
+
+export const useLayoutStore = create<LayoutState>((set) => ({
+  layoutSlide: false,
+  setLayoutSlide: () => set((state) => ({ layoutSlide: !state.layoutSlide })),
+}));
