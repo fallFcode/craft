@@ -115,6 +115,7 @@
       "label": "CRF",
       "flag": "crf",
       "value": 23,
+      "max": 51,
       "mode": "number",
       "isImportant": false,
       "avoid": ["bv"],
@@ -124,7 +125,7 @@
       "label": "bv",
       "flag": "bv",
       "value": 0,
-
+      "max": 999,
       "mode": "number",
       "isImportant": false,
       "avoid": ["crf"]
@@ -149,6 +150,7 @@
       "label": "Audio Bitrate",
       "flag": "b:a",
       "value": "128k",
+      "valueTemplate":"{{input}}k",
       "mode": "input",
       "isImportant": false
     },
@@ -176,6 +178,7 @@
       "label": "Metadata Title",
       "flag": "metadata",
       "value": "title=output",
+      "valueTemplate":"title={{input}}",
       "mode": "input",
       "isImportant": false
     },
@@ -183,12 +186,14 @@
       "label": "Video Stream Language",
       "flag": "metadata:s:v",
       "value": "language=eng",
+      "valueTemplate":"language={{input}}",
       "mode": "input",
       "isImportant": false
     },
     "metadataASA": {
       "label": "Audio Stream Language",
       "flag": "metadata:s:a",
+      "valueTemplate":"language={{input}}",
       "value": "language=eng",
       "mode": "input",
       "isImportant": false

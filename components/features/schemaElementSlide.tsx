@@ -6,6 +6,8 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import InputCheckBox from "../ui/input-checkbox";
 import { Select } from "../ui/select";
+import { InputTimeline } from "../ui/input-timeline";
+import { InputCustom } from "../ui/input-custom";
 
 type TypeSelect = Record<string, string | number | TypeSelect | TypeSelect[]>;
 
@@ -15,7 +17,8 @@ export const schemaElement = (setSelect) => {
       const element = (
         <WrapperSet item={item}>
           <label htmlFor="">{item.label}</label>
-          <Input defaultValue={item.value} />
+          {/* <Input defaultValue={item.value} /> */}
+          <InputCustom defaultValue={item.value} formatTemplate={item.valueTemplate} />
         </WrapperSet>
       );
 
@@ -27,7 +30,12 @@ export const schemaElement = (setSelect) => {
         <Input max={item.max} type="number" />
       </WrapperSet>
     ),
-    duration: (item: TypeSelect) => <Input type="time" />,
+    duration: (item: TypeSelect) => (
+      <WrapperSet item={item}>
+        <label htmlFor="">{item.label}</label>
+        <InputTimeline />
+      </WrapperSet>
+    ),
     check: (item: TypeSelect) => (
       <WrapperSet item={item}>
         <InputCheckBox label={item.label} />
